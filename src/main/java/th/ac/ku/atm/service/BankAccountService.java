@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 public class BankAccountService {
 
-    private  List<BankAccount> bankAccountList;
     private RestTemplate restTemplate;
 
     public BankAccountService(RestTemplate restTemplate) {
@@ -31,12 +30,22 @@ public class BankAccountService {
     }
 
 
-    public void createBankAccount(BankAccount bankAccount) {
-        bankAccountList.add(bankAccount);
+    public void openAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount";
+
+        restTemplate.postForObject(url, bankAccount, BankAccount.class);
     }
 
+
     public List<BankAccount> getBankAccounts() {
-        return new ArrayList<>(bankAccountList);
+        String url = "http://localhost:8091/api/bankaccount/";
+
+        ResponseEntity<BankAccount[]> response =
+                restTemplate.getForEntity(url, BankAccount[].class);
+
+        BankAccount[] accounts = response.getBody();
+        return Arrays.asList(accounts);
     }
+
 
 }

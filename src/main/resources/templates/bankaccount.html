@@ -5,16 +5,12 @@
 
 
 <div layout:fragment="content" class="container" >
-    <h1>Register Customer</h1>
-    <form action="#" th:action="@{/bankaccount}" method="POST">
-        <div class="form-group">
-            <label for="inputId">Id</label>
-            <input type="input" class="form-control" name="id" id="inputId">
-        </div>
+    <h1>Open Bank Account</h1>
+    <form th:action="@{/bankaccount}" method="POST">
 
         <div class="form-group">
             <label for="inputName">Customer Id</label>
-            <input type="input" class="form-control" name="customerId" id="inputName">
+            <input type="input" class="form-control" name="customerId" id="inputCustomer">
         </div>
 
         <div class="form-group">
@@ -24,7 +20,7 @@
 
         <div class="form-group">
             <label for="inputbalance">Balance</label>
-            <input type="input" class="form-control" name="balance" id="inputbalance">
+            <input type="input" class="form-control" name="balance" id="inputBalance">
         </div>
 
         <div class="form-group">
@@ -33,7 +29,7 @@
     </form>
 
     <hr>
-    <h1>All Customers</h1>
+    <h1>All Bank Accounts</h1>
     <table class="table table-bordered">
         <thead class="thead-light">
         <tr>
@@ -44,11 +40,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="bankAccount : ${allBankAccount}">
-            <td th:text="${bankAccount.id}"></td>
-            <td th:text="${bankAccount.customerId}"></td>
-            <td th:text="${bankAccount.type}"></td>
-            <td th:text="${bankAccount.balance}"></td>
+        <tr th:each="account : ${bankaccounts}">
+            <td th:text="${account.id}"></td>
+            <td th:text="${account.customerId}"></td>
+            <td th:text="${account.type}"></td>
+            <td th:text="${account.balance}"></td>
         </tr>
         </tbody>
     </table>
