@@ -4,6 +4,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import th.ac.ku.atm.model.BankAccount;
+import th.ac.ku.atm.model.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +61,16 @@ public class BankAccountService {
         String url = "http://localhost:8091/api/bankaccount/" +
                 bankAccount.getId();
         restTemplate.put(url, bankAccount);
+    }
+
+    public void deposit(int id, Transaction transaction) {
+        String url = "http://localhost:8091/api/bankaccount/deposit/" + id;
+        restTemplate.put(url, transaction);
+    }
+
+    public void withdraw(int id, Transaction transaction) {
+        String url = "http://localhost:8091/api/bankaccount/withdraw/" + id;
+        restTemplate.put(url, transaction);
     }
 
     public void deleteBankAccount(int id){

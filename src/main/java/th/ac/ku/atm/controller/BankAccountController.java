@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import th.ac.ku.atm.model.BankAccount;
+import th.ac.ku.atm.model.Transaction;
 import th.ac.ku.atm.service.BankAccountService;
 
 
@@ -23,13 +24,6 @@ public class BankAccountController {
         return "bankaccount";
     }
 
-    @GetMapping("/edit/{id}")
-    public String getEditBankAccountPage(@PathVariable int id, Model model) {
-        BankAccount account = accountService.getBankAccount(id);
-        model.addAttribute("bankAccount", account);
-        return "bankaccount-edit";
-    }
-
     @PostMapping
     public String openAccount(@ModelAttribute BankAccount bankAccount, Model model) {
         accountService.openAccount(bankAccount);
@@ -37,12 +31,21 @@ public class BankAccountController {
         return "redirect:bankaccount";
     }
 
-    @PostMapping("/edit/{id}")
-    public String editAccount(@PathVariable int id,
-                              @ModelAttribute BankAccount bankAccount,
-                              Model model) {
+    @PostMapping("/deposit/{id}")
+    public String deposit(@PathVariable int id,
+                          @ModelAttribute Transaction transaction,
+                          Model model) {
+        accountService.deposit(id,transaction);
+        model.addAttribute("bankaccounts",accountService.getBankAccounts());
+        return "redirect:/bankaccount";
+    }
 
-        accountService.editBankAccount(bankAccount);
+    @PostMapping("/withdraw/{id}")
+    public String withdraw(@PathVariable int id,
+                          @ModelAttribute Transaction transaction,
+                          Model model) {
+
+        accountService.withdraw(id,transaction);
         model.addAttribute("bankaccounts",accountService.getBankAccounts());
         return "redirect:/bankaccount";
     }

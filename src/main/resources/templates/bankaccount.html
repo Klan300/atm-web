@@ -2,6 +2,26 @@
 <html xmlns:layout="http://www.w3.org/1999/xhtml"
       layout:decorate="~{fragments/main_layout}"
       xmlns:th="https://www.thymeleaf.org">
+<head>
+    <script type="text/javascript">
+
+        function depositAction(id)
+        {
+            let form;
+            form = document.getElementById(`transaction-${id}`);
+            form.action = `/bankaccount/deposit/${id}`
+            form.submit();
+        }
+
+        function withdrawAction(id)
+        {
+            let form;
+            form = document.getElementById(`transaction-${id}`);
+            form.action = `/bankaccount/withdraw/${id}`
+            form.submit();
+        }
+    </script>
+</head>
 
 <div class="container" layout:fragment="content">
 
@@ -39,7 +59,8 @@
             <th>CustomerId</th>
             <th>Type</th>
             <th>Balance</th>
-            <th>Actions</th>
+            <th>Transaction</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -49,7 +70,22 @@
             <td th:text="${account.type}"></td>
             <td th:text="${account.balance}"></td>
             <td>
-                <a class="btn btn-primary" th:href="@{/bankaccount/edit/{id}(id=${account.id})}">Edit</a>
+                <form action="#" th:id="'transaction-' + ${account.id}" method="POST">
+                    <div th:class="'transaction-' + ${account.id}">
+                        <label for="inputValue">Value</label>
+                        <input type="text" class="form-control m-1" name="value" id="inputValue">
+                        <div style="display: flex;">
+                            <div th:class="'transaction-' + ${account.id}">
+                                <button type="button" th:onclick="'depositAction('+${account.id}+')'" class="btn btn-success m-1">Deposit</button>
+                            </div>
+                            <div th:class="'transaction-' + ${account.id}">
+                                <button type="button"  th:onclick="'withdrawAction('+${account.id}+')'" class="btn btn-warning m-1">Withdraw</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </td>
+            <td>
                 <form th:action="@{/bankaccount/delete/{id}(id=${account.id})}" method="POST">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -58,3 +94,5 @@
         </tbody>
     </table>
 </div>
+
+
